@@ -12,6 +12,24 @@ int score_stream(unsigned char *stream, int length, unsigned char key_byte)
         if (decrypted >= 32 && decrypted <= 126)
         {
             score++;
+            if (decrypted == 'a' || decrypted == 'A') {
+                score += 2;
+            }
+            if (decrypted == 'e' || decrypted == 'E') {
+                score += 3;
+            }
+            if (decrypted == 'i' || decrypted == 'I') {
+                score += 2;
+            }
+            if (decrypted == 'o' || decrypted == 'O') {
+                score += 2;
+            }
+            if (decrypted == 'u' || decrypted == 'U') {
+                score += 1;
+            }
+            if (decrypted == ' ') {
+                score += 3;
+            }
         }
     }
     return score;
@@ -41,7 +59,7 @@ int main()
     }
     fclose(cipherText);
 
-    for (int guessed_key_length = 1; guessed_key_length < 100; guessed_key_length++)
+    for (int guessed_key_length = 1; guessed_key_length < 20; guessed_key_length++)
     {
         unsigned char streams[guessed_key_length][MAX_CIPHER_LEN];
         int streams_lens[guessed_key_length];
@@ -49,6 +67,9 @@ int main()
         for (int i = 0; i < guessed_key_length; i++)
         {
             streams_lens[i] = 0;
+            for (int j = 0; j < MAX_CIPHER_LEN; j++) {
+                streams[i][j] = 0;
+            }
         }
 
         for (int i = 0; i < cipher_len; i++)
